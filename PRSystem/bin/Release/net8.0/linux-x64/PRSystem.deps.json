@@ -1,0 +1,655 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0/linux-x64",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {},
+    ".NETCoreApp,Version=v8.0/linux-x64": {
+      "PRSystem/1.0.0": {
+        "dependencies": {
+          "IKVM": "8.10.3",
+          "Microsoft.Extensions.Http.Polly": "9.0.0",
+          "Newtonsoft.Json": "13.0.3",
+          "System.Data.Odbc": "9.0.0"
+        },
+        "runtime": {
+          "PRSystem.dll": {}
+        }
+      },
+      "IKVM/8.10.3": {
+        "dependencies": {
+          "IKVM.ByteCode": "9.2.2",
+          "IKVM.Image": "8.10.3",
+          "IKVM.MSBuild": "8.10.3",
+          "Microsoft.Extensions.DependencyModel": "8.0.0",
+          "System.Data.Odbc": "9.0.0"
+        },
+        "runtime": {
+          "runtimes/linux/lib/net8.0/IKVM.Java.dll": {
+            "assemblyVersion": "8.10.3.0",
+            "fileVersion": "8.10.3.60000"
+          },
+          "runtimes/linux/lib/net8.0/IKVM.Runtime.dll": {
+            "assemblyVersion": "8.10.3.0",
+            "fileVersion": "8.10.3.60000"
+          }
+        },
+        "native": {
+          "runtimes/linux-x64/native/libikvm.so": {
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "IKVM.ByteCode/9.2.2": {
+        "runtime": {
+          "lib/net8.0/IKVM.ByteCode.dll": {
+            "assemblyVersion": "9.2.2.0",
+            "fileVersion": "9.2.2.60000"
+          }
+        }
+      },
+      "IKVM.Image/8.10.3": {
+        "dependencies": {
+          "IKVM.Image.runtime.linux-arm": "8.10.3",
+          "IKVM.Image.runtime.linux-arm64": "8.10.3",
+          "IKVM.Image.runtime.linux-musl-arm": "8.10.3",
+          "IKVM.Image.runtime.linux-musl-arm64": "8.10.3",
+          "IKVM.Image.runtime.linux-musl-x64": "8.10.3",
+          "IKVM.Image.runtime.linux-x64": "8.10.3",
+          "IKVM.Image.runtime.osx-arm64": "8.10.3",
+          "IKVM.Image.runtime.osx-x64": "8.10.3",
+          "IKVM.Image.runtime.win-arm64": "8.10.3",
+          "IKVM.Image.runtime.win-x64": "8.10.3",
+          "IKVM.Image.runtime.win-x86": "8.10.3"
+        }
+      },
+      "IKVM.Image.runtime.linux-arm/8.10.3": {},
+      "IKVM.Image.runtime.linux-arm64/8.10.3": {},
+      "IKVM.Image.runtime.linux-musl-arm/8.10.3": {},
+      "IKVM.Image.runtime.linux-musl-arm64/8.10.3": {},
+      "IKVM.Image.runtime.linux-musl-x64/8.10.3": {},
+      "IKVM.Image.runtime.linux-x64/8.10.3": {},
+      "IKVM.Image.runtime.osx-arm64/8.10.3": {},
+      "IKVM.Image.runtime.osx-x64/8.10.3": {},
+      "IKVM.Image.runtime.win-arm64/8.10.3": {},
+      "IKVM.Image.runtime.win-x64/8.10.3": {},
+      "IKVM.Image.runtime.win-x86/8.10.3": {},
+      "IKVM.MSBuild/8.10.3": {
+        "dependencies": {
+          "IKVM.MSBuild.Tools": "8.10.3"
+        }
+      },
+      "IKVM.MSBuild.Tools/8.10.3": {
+        "dependencies": {
+          "IKVM.MSBuild.Tools.runtime.linux-arm": "8.10.3",
+          "IKVM.MSBuild.Tools.runtime.linux-arm64": "8.10.3",
+          "IKVM.MSBuild.Tools.runtime.linux-x64": "8.10.3",
+          "IKVM.MSBuild.Tools.runtime.osx-arm64": "8.10.3",
+          "IKVM.MSBuild.Tools.runtime.osx-x64": "8.10.3",
+          "IKVM.MSBuild.Tools.runtime.win-arm64": "8.10.3",
+          "IKVM.MSBuild.Tools.runtime.win-x64": "8.10.3"
+        }
+      },
+      "IKVM.MSBuild.Tools.runtime.linux-arm/8.10.3": {},
+      "IKVM.MSBuild.Tools.runtime.linux-arm64/8.10.3": {},
+      "IKVM.MSBuild.Tools.runtime.linux-x64/8.10.3": {},
+      "IKVM.MSBuild.Tools.runtime.osx-arm64/8.10.3": {},
+      "IKVM.MSBuild.Tools.runtime.osx-x64/8.10.3": {},
+      "IKVM.MSBuild.Tools.runtime.win-arm64/8.10.3": {},
+      "IKVM.MSBuild.Tools.runtime.win-x64/8.10.3": {},
+      "Microsoft.Extensions.Configuration/9.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Primitives": "9.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Configuration.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
+      "Microsoft.Extensions.Configuration.Abstractions/9.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "9.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
+      "Microsoft.Extensions.Configuration.Binder/9.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "9.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Configuration.Binder.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection/9.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.DependencyInjection.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions/9.0.0": {
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
+      "Microsoft.Extensions.DependencyModel/8.0.0": {
+        "dependencies": {
+          "System.Text.Encodings.Web": "8.0.0",
+          "System.Text.Json": "8.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.DependencyModel.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.53103"
+          }
+        }
+      },
+      "Microsoft.Extensions.Diagnostics/9.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "9.0.0",
+          "Microsoft.Extensions.Diagnostics.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Options.ConfigurationExtensions": "9.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Diagnostics.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
+      "Microsoft.Extensions.Diagnostics.Abstractions/9.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Options": "9.0.0",
+          "System.Diagnostics.DiagnosticSource": "9.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Diagnostics.Abstractions.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
+      "Microsoft.Extensions.Http/9.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "9.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Diagnostics": "9.0.0",
+          "Microsoft.Extensions.Logging": "9.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Options": "9.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Http.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
+      "Microsoft.Extensions.Http.Polly/9.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Http": "9.0.0",
+          "Polly": "7.2.4",
+          "Polly.Extensions.Http": "3.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Http.Polly.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52903"
+          }
+        }
+      },
+      "Microsoft.Extensions.Logging/9.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection": "9.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Options": "9.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Logging.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
+      "Microsoft.Extensions.Logging.Abstractions/9.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
+          "System.Diagnostics.DiagnosticSource": "9.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
+      "Microsoft.Extensions.Options/9.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Primitives": "9.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Options.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
+      "Microsoft.Extensions.Options.ConfigurationExtensions/9.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Configuration.Binder": "9.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0",
+          "Microsoft.Extensions.Options": "9.0.0",
+          "Microsoft.Extensions.Primitives": "9.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Options.ConfigurationExtensions.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
+      "Microsoft.Extensions.Primitives/9.0.0": {
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Primitives.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
+      "Newtonsoft.Json/13.0.3": {
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.3.27908"
+          }
+        }
+      },
+      "Polly/7.2.4": {
+        "runtime": {
+          "lib/netstandard2.0/Polly.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.2.4.982"
+          }
+        }
+      },
+      "Polly.Extensions.Http/3.0.0": {
+        "dependencies": {
+          "Polly": "7.2.4"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Polly.Extensions.Http.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.0.0"
+          }
+        }
+      },
+      "System.Data.Odbc/9.0.0": {
+        "runtime": {
+          "runtimes/unix/lib/net8.0/System.Data.Odbc.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
+      "System.Diagnostics.DiagnosticSource/9.0.0": {
+        "runtime": {
+          "lib/net8.0/System.Diagnostics.DiagnosticSource.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
+      "System.Text.Encodings.Web/8.0.0": {},
+      "System.Text.Json/8.0.0": {
+        "dependencies": {
+          "System.Text.Encodings.Web": "8.0.0"
+        }
+      }
+    }
+  },
+  "libraries": {
+    "PRSystem/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "IKVM/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-GDNzeQpOMDey09pteljGFkLEssas1tyhWTnP+XMQ43K/e7tD3bjsV4fTK6lBb89hxkn4Z18SHf7O0FkIxSZI7Q==",
+      "path": "ikvm/8.10.3",
+      "hashPath": "ikvm.8.10.3.nupkg.sha512"
+    },
+    "IKVM.ByteCode/9.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oMZXxKod6SuioM83vsPfRbDyBW4h1deFN/6wL5bkm+q1MWxd/0Hkp0KqWJ9VbLwpOP1H/nuzhcI9BEKC2tJSzQ==",
+      "path": "ikvm.bytecode/9.2.2",
+      "hashPath": "ikvm.bytecode.9.2.2.nupkg.sha512"
+    },
+    "IKVM.Image/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-SOttLARePDXcjLplqwJZJdXyaK6LhT/ssyA44dyM61E5gpZEKZf7BC16RcoKM7coSk+i2EgpkHGkuBlPjLVuJg==",
+      "path": "ikvm.image/8.10.3",
+      "hashPath": "ikvm.image.8.10.3.nupkg.sha512"
+    },
+    "IKVM.Image.runtime.linux-arm/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-eRvXBq4QzsA9+vxMqQmGJwj71dopUP5Zrj4RPVkNV82/xSC4riEM0NgtJxTFis0JoBq38tdS8HGs3W7dXovsbQ==",
+      "path": "ikvm.image.runtime.linux-arm/8.10.3",
+      "hashPath": "ikvm.image.runtime.linux-arm.8.10.3.nupkg.sha512"
+    },
+    "IKVM.Image.runtime.linux-arm64/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cCKX4juwnH81br790yHZ6W4zFOwPT3E7mhvIh88R6WFw4e7kc78RvYUXyJSHsFC/JpeS2uGpyeY/VZwenTSGXA==",
+      "path": "ikvm.image.runtime.linux-arm64/8.10.3",
+      "hashPath": "ikvm.image.runtime.linux-arm64.8.10.3.nupkg.sha512"
+    },
+    "IKVM.Image.runtime.linux-musl-arm/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-W69/MW6PqpFKsx9RJWOFs9N4NknLa3z/AbbZqos9JlnFqWeOLFQ7NnFS0dL06frnTUR6C34GX0+nqnzIYK+pPQ==",
+      "path": "ikvm.image.runtime.linux-musl-arm/8.10.3",
+      "hashPath": "ikvm.image.runtime.linux-musl-arm.8.10.3.nupkg.sha512"
+    },
+    "IKVM.Image.runtime.linux-musl-arm64/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uHHgieliXvoSiexUxwLaP1PHF5kdE5wc4gGmDKGfk1WwjZbEWeW3izgnaLBw+8A15Q8SvJWrNBjiGFVB8k4DTQ==",
+      "path": "ikvm.image.runtime.linux-musl-arm64/8.10.3",
+      "hashPath": "ikvm.image.runtime.linux-musl-arm64.8.10.3.nupkg.sha512"
+    },
+    "IKVM.Image.runtime.linux-musl-x64/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-znLCkxCwA35cw+DxB0uAkrwzRExnEMJIB1qJ4EfjBppW39n6bn0ekndcUm/it/UsTsKVgxzvjGfKiTc4SYwQ2w==",
+      "path": "ikvm.image.runtime.linux-musl-x64/8.10.3",
+      "hashPath": "ikvm.image.runtime.linux-musl-x64.8.10.3.nupkg.sha512"
+    },
+    "IKVM.Image.runtime.linux-x64/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wNUfDMRF4Bod3esFFQ3nraxduMO95C5wMxvjnY9doJNXicCb7O5nZrunBn2nH0owJJCWr+5aCigA8PfHfJ/RNw==",
+      "path": "ikvm.image.runtime.linux-x64/8.10.3",
+      "hashPath": "ikvm.image.runtime.linux-x64.8.10.3.nupkg.sha512"
+    },
+    "IKVM.Image.runtime.osx-arm64/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-b/buNIIPZTFVnsuVfhxjnJSlNWuwV4mwS5TwAzfT04gd5sHRy6X2OuDzj6GYTG/Wc0HpYSQcUgvJOA9m0bb67w==",
+      "path": "ikvm.image.runtime.osx-arm64/8.10.3",
+      "hashPath": "ikvm.image.runtime.osx-arm64.8.10.3.nupkg.sha512"
+    },
+    "IKVM.Image.runtime.osx-x64/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aEaUsTa9dHxce9XBVkQuh3p6U6J8yjxdgBEM9UJ5OozmW7PTcqeWEjRM8//pOLVh3KzPv2AF+fb8l2eZ8NEAaA==",
+      "path": "ikvm.image.runtime.osx-x64/8.10.3",
+      "hashPath": "ikvm.image.runtime.osx-x64.8.10.3.nupkg.sha512"
+    },
+    "IKVM.Image.runtime.win-arm64/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Gs5xuiae1MElmikYvbZfZ/oKcQ5r3BqBu0ZNV7FOB9kNEJ2wH8/fTWMhyLtQKnRBrt8t5JykvHrBAMsHh0EtSA==",
+      "path": "ikvm.image.runtime.win-arm64/8.10.3",
+      "hashPath": "ikvm.image.runtime.win-arm64.8.10.3.nupkg.sha512"
+    },
+    "IKVM.Image.runtime.win-x64/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-nFzFD61+9xmb/DqsL6zF+hHcJfNM47i/zuHpgcFrMYgpH6/L9ywaz+4DH6wN+1ZtZiANfQBQFiNbioeFhcA3tQ==",
+      "path": "ikvm.image.runtime.win-x64/8.10.3",
+      "hashPath": "ikvm.image.runtime.win-x64.8.10.3.nupkg.sha512"
+    },
+    "IKVM.Image.runtime.win-x86/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-E41aE+w4cbzi7gCG5frydtdYT3VL3XhTuMx8+OO4ZirkLUOdHR3kiBdQ+AhBa3W4JP5X6GrrGmtYfMhZMh8kvA==",
+      "path": "ikvm.image.runtime.win-x86/8.10.3",
+      "hashPath": "ikvm.image.runtime.win-x86.8.10.3.nupkg.sha512"
+    },
+    "IKVM.MSBuild/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7rWe69osZf9HnNNeu6BMsiKEUtdD5FnKG52uGdRdNdyzCmfiFFMUVA2r8CL1v2hBAz7BjOv3bQ0MC5SI8vRVog==",
+      "path": "ikvm.msbuild/8.10.3",
+      "hashPath": "ikvm.msbuild.8.10.3.nupkg.sha512"
+    },
+    "IKVM.MSBuild.Tools/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-IsesbYHtWYZXJp9rmL3yUUrbXueUtThoAFfL76/q9BXsMMp9ycCjKFLkQVuDYQltRIO0YKYKixPKbUIdnpQ3mQ==",
+      "path": "ikvm.msbuild.tools/8.10.3",
+      "hashPath": "ikvm.msbuild.tools.8.10.3.nupkg.sha512"
+    },
+    "IKVM.MSBuild.Tools.runtime.linux-arm/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6cyS6I9XQSm/QAh9bLUlAQZyTnXz2vrUesSTXlvXvG7VBHYb+iOz30m+JYO+3eLQ7mYOyMQpJ0x9sw4tTbLHTQ==",
+      "path": "ikvm.msbuild.tools.runtime.linux-arm/8.10.3",
+      "hashPath": "ikvm.msbuild.tools.runtime.linux-arm.8.10.3.nupkg.sha512"
+    },
+    "IKVM.MSBuild.Tools.runtime.linux-arm64/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2aIhjuQegskpr0pZ1zdvNSCyh6Te1k6IeOHJa9bbesDWICqy/1QdMaFpfDiFE8qtg5+pShxEZBCiLHFoGWB2MQ==",
+      "path": "ikvm.msbuild.tools.runtime.linux-arm64/8.10.3",
+      "hashPath": "ikvm.msbuild.tools.runtime.linux-arm64.8.10.3.nupkg.sha512"
+    },
+    "IKVM.MSBuild.Tools.runtime.linux-x64/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HeNbVr0aOnNNlxG5ZY80SXi8GyJHShjvAjwdch5ChGkR4IKlqsOkD5YB5ya0Bz2QWq8OUFAlxdRN+EROMkMmbQ==",
+      "path": "ikvm.msbuild.tools.runtime.linux-x64/8.10.3",
+      "hashPath": "ikvm.msbuild.tools.runtime.linux-x64.8.10.3.nupkg.sha512"
+    },
+    "IKVM.MSBuild.Tools.runtime.osx-arm64/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JkrzwsDarhC23cU/pJ+o52XbYEDLoMs04RdMqL5UB/ULQzFg1okfmy1PnRCwGZJ4s+kwBy+3bPbjDAPuJLuLkQ==",
+      "path": "ikvm.msbuild.tools.runtime.osx-arm64/8.10.3",
+      "hashPath": "ikvm.msbuild.tools.runtime.osx-arm64.8.10.3.nupkg.sha512"
+    },
+    "IKVM.MSBuild.Tools.runtime.osx-x64/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-sQcCDaeTbwEbYeA2aRrXD9+7Qo0FSW/FxYE/Ex8rnvPls/TZSqS9Hv/HwlFcy6JwN9VUNpxRizqUsMMWygOPkA==",
+      "path": "ikvm.msbuild.tools.runtime.osx-x64/8.10.3",
+      "hashPath": "ikvm.msbuild.tools.runtime.osx-x64.8.10.3.nupkg.sha512"
+    },
+    "IKVM.MSBuild.Tools.runtime.win-arm64/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9vYco6NaOErzcHgMJ1RKqkmCvQYXRuh3iM7mPDygN6V/C8cXibIhxzkpbWaXEXRCX8GEvpzedqlY1QhJ+OgYYg==",
+      "path": "ikvm.msbuild.tools.runtime.win-arm64/8.10.3",
+      "hashPath": "ikvm.msbuild.tools.runtime.win-arm64.8.10.3.nupkg.sha512"
+    },
+    "IKVM.MSBuild.Tools.runtime.win-x64/8.10.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jol2iF1xsYyeEa6Z3w0WAgAJEayq6VzvpAVUB97XGh4/CZ2J4lMBlOr0Iy7ULEE5UFzo985D0no4Vxmvnhanig==",
+      "path": "ikvm.msbuild.tools.runtime.win-x64/8.10.3",
+      "hashPath": "ikvm.msbuild.tools.runtime.win-x64.8.10.3.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Configuration/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-YIMO9T3JL8MeEXgVozKt2v79hquo/EFtnY0vgxmLnUvk1Rei/halI7kOWZL2RBeV9FMGzgM9LZA8CVaNwFMaNA==",
+      "path": "microsoft.extensions.configuration/9.0.0",
+      "hashPath": "microsoft.extensions.configuration.9.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Configuration.Abstractions/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lqvd7W3FGKUO1+ZoUEMaZ5XDJeWvjpy2/M/ptCGz3tXLD4HWVaSzjufsAsjemasBEg+2SxXVtYVvGt5r2nKDlg==",
+      "path": "microsoft.extensions.configuration.abstractions/9.0.0",
+      "hashPath": "microsoft.extensions.configuration.abstractions.9.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Configuration.Binder/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RiScL99DcyngY9zJA2ROrri7Br8tn5N4hP4YNvGdTN/bvg1A3dwvDOxHnNZ3Im7x2SJ5i4LkX1uPiR/MfSFBLQ==",
+      "path": "microsoft.extensions.configuration.binder/9.0.0",
+      "hashPath": "microsoft.extensions.configuration.binder.9.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.DependencyInjection/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MCPrg7v3QgNMr0vX4vzRXvkNGgLg8vKWX0nKCWUxu2uPyMsaRgiRc1tHBnbTcfJMhMKj2slE/j2M9oGkd25DNw==",
+      "path": "microsoft.extensions.dependencyinjection/9.0.0",
+      "hashPath": "microsoft.extensions.dependencyinjection.9.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.DependencyInjection.Abstractions/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+6f2qv2a3dLwd5w6JanPIPs47CxRbnk+ZocMJUhv9NxP88VlOcJYZs9jY+MYSjxvady08bUZn6qgiNh7DadGgg==",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/9.0.0",
+      "hashPath": "microsoft.extensions.dependencyinjection.abstractions.9.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.DependencyModel/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-NSmDw3K0ozNDgShSIpsZcbFIzBX4w28nDag+TfaQujkXGazBm+lid5onlWoCBy4VsLxqnnKjEBbGSJVWJMf43g==",
+      "path": "microsoft.extensions.dependencymodel/8.0.0",
+      "hashPath": "microsoft.extensions.dependencymodel.8.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Diagnostics/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0CF9ZrNw5RAlRfbZuVIvzzhP8QeWqHiUmMBU/2H7Nmit8/vwP3/SbHeEctth7D4Gz2fBnEbokPc1NU8/j/1ZLw==",
+      "path": "microsoft.extensions.diagnostics/9.0.0",
+      "hashPath": "microsoft.extensions.diagnostics.9.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Diagnostics.Abstractions/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1K8P7XzuzX8W8pmXcZjcrqS6x5eSSdvhQohmcpgiQNY/HlDAlnrhR9dvlURfFz428A+RTCJpUyB+aKTA6AgVcQ==",
+      "path": "microsoft.extensions.diagnostics.abstractions/9.0.0",
+      "hashPath": "microsoft.extensions.diagnostics.abstractions.9.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Http/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-DqI4q54U4hH7bIAq9M5a/hl5Odr/KBAoaZ0dcT4OgutD8dook34CbkvAfAIzkMVjYXiL+E5ul9etwwqiX4PHGw==",
+      "path": "microsoft.extensions.http/9.0.0",
+      "hashPath": "microsoft.extensions.http.9.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Http.Polly/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-c9cq28bSsycDoHzeIrNODdnZap/Un1B6A7M2QVRlPaIaWAtKcswkDDelhco9NwOdhhkFeVDqk5MrmAbYdfgBTw==",
+      "path": "microsoft.extensions.http.polly/9.0.0",
+      "hashPath": "microsoft.extensions.http.polly.9.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Logging/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-crjWyORoug0kK7RSNJBTeSE6VX8IQgLf3nUpTB9m62bPXp/tzbnOsnbe8TXEG0AASNaKZddnpHKw7fET8E++Pg==",
+      "path": "microsoft.extensions.logging/9.0.0",
+      "hashPath": "microsoft.extensions.logging.9.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Logging.Abstractions/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-g0UfujELzlLbHoVG8kPKVBaW470Ewi+jnptGS9KUi6jcb+k2StujtK3m26DFSGGwQ/+bVgZfsWqNzlP6YOejvw==",
+      "path": "microsoft.extensions.logging.abstractions/9.0.0",
+      "hashPath": "microsoft.extensions.logging.abstractions.9.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Options/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-y2146b3jrPI3Q0lokKXdKLpmXqakYbDIPDV6r3M8SqvSf45WwOTzkyfDpxnZXJsJQEpAsAqjUq5Pu8RCJMjubg==",
+      "path": "microsoft.extensions.options/9.0.0",
+      "hashPath": "microsoft.extensions.options.9.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Options.ConfigurationExtensions/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Ob3FXsXkcSMQmGZi7qP07EQ39kZpSBlTcAZLbJLdI4FIf0Jug8biv2HTavWmnTirchctPlq9bl/26CXtQRguzA==",
+      "path": "microsoft.extensions.options.configurationextensions/9.0.0",
+      "hashPath": "microsoft.extensions.options.configurationextensions.9.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Primitives/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-N3qEBzmLMYiASUlKxxFIISP4AiwuPTHF5uCh+2CWSwwzAJiIYx0kBJsS30cp1nvhSySFAVi30jecD307jV+8Kg==",
+      "path": "microsoft.extensions.primitives/9.0.0",
+      "hashPath": "microsoft.extensions.primitives.9.0.0.nupkg.sha512"
+    },
+    "Newtonsoft.Json/13.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
+      "path": "newtonsoft.json/13.0.3",
+      "hashPath": "newtonsoft.json.13.0.3.nupkg.sha512"
+    },
+    "Polly/7.2.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-bw00Ck5sh6ekduDE3mnCo1ohzuad946uslCDEENu3091+6UKnBuKLo4e+yaNcCzXxOZCXWY2gV4a35+K1d4LDA==",
+      "path": "polly/7.2.4",
+      "hashPath": "polly.7.2.4.nupkg.sha512"
+    },
+    "Polly.Extensions.Http/3.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-drrG+hB3pYFY7w1c3BD+lSGYvH2oIclH8GRSehgfyP5kjnFnHKQuuBhuHLv+PWyFuaTDyk/vfRpnxOzd11+J8g==",
+      "path": "polly.extensions.http/3.0.0",
+      "hashPath": "polly.extensions.http.3.0.0.nupkg.sha512"
+    },
+    "System.Data.Odbc/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-VyLdWZBmdk7qRI7nMfZZTiHaeAtyvlwk+BsTPrDMG/Rm+xw16gj7b2uofhwtIYgiYCJ4ae/cOmzMT/MEHkU9oQ==",
+      "path": "system.data.odbc/9.0.0",
+      "hashPath": "system.data.odbc.9.0.0.nupkg.sha512"
+    },
+    "System.Diagnostics.DiagnosticSource/9.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ddppcFpnbohLWdYKr/ZeLZHmmI+DXFgZ3Snq+/E7SwcdW4UnvxmaugkwGywvGVWkHPGCSZjCP+MLzu23AL5SDw==",
+      "path": "system.diagnostics.diagnosticsource/9.0.0",
+      "hashPath": "system.diagnostics.diagnosticsource.9.0.0.nupkg.sha512"
+    },
+    "System.Text.Encodings.Web/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yev/k9GHAEGx2Rg3/tU6MQh4HGBXJs70y7j1LaM1i/ER9po+6nnQ6RRqTJn1E7Xu0fbIFK80Nh5EoODxrbxwBQ==",
+      "path": "system.text.encodings.web/8.0.0",
+      "hashPath": "system.text.encodings.web.8.0.0.nupkg.sha512"
+    },
+    "System.Text.Json/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OdrZO2WjkiEG6ajEFRABTRCi/wuXQPxeV6g8xvUJqdxMvvuCCEk86zPla8UiIQJz3durtUEbNyY/3lIhS0yZvQ==",
+      "path": "system.text.json/8.0.0",
+      "hashPath": "system.text.json.8.0.0.nupkg.sha512"
+    }
+  }
+}

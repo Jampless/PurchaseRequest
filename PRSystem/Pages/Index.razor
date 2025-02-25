@@ -1,0 +1,1197 @@
+@page "/"
+@using Microsoft.JSInterop
+@using PRSystem.Model
+@using PRSystem.Models
+@using PRSystem.Services
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@inject SAPService SapService
+@inject SAPOdbc _sap
+@inject NavigationManager _navigation
+@inject IJSRuntime _runtime
+
+@* Add Bootstrap CSS *@
+@* <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" /> *@
+
+<style>
+    
+    .main-container {
+        display: grid;
+        margin: auto;
+        border-radius: 4px;
+        box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.10);
+        -webkit-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.10);
+        -moz-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.10);
+    }
+    .header-container{
+        background-color: #00A3AD;
+        width: 100%;
+        height: 10px;
+    }
+    .body-container{
+        display: grid;
+        padding: 10px 10px;
+        gap: 10px;
+    }
+    .column-three {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 3fr));
+        gap: 10px;
+    }
+    .input-label{
+        font-size: 14px;
+        color: #7B7B7B;
+    }
+    .input-form{
+        display: block;
+        width: 100%;
+        padding: 0px 5px;
+        font-size: 1rem;
+        border-radius: 2px;
+        border: 1px solid #ced4da;
+    }
+    .select-input {
+        display: block;
+        padding: 3px 5px;
+        width: 100%;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ced4da;
+        border-radius: 2px;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    table {
+    width: 100%;
+    }
+
+    tr td {
+        font-size: 14px;
+    }
+
+        tr td a {
+            text-decoration: none
+        }
+
+            tr td a:hover {
+                color: #00A3AD;
+                font-weight: bold;
+            }
+
+    thead tr th {
+        padding: 4px 6px;
+    }
+
+    thead tr:hover {
+        background-color: white !important;
+    }
+
+    tbody tr td {
+        padding: 4px 6px;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+    }
+
+    tbody tr:hover {
+        background-color: #DEDEDE;
+        color: black;
+    }
+
+    td button {
+        border: none;
+        background-color: transparent;
+    }
+
+        td button:hover {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+    .bubble-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .bubble {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: #f1f1f1;
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        list-style: none;
+        min-width: 150px;
+        z-index: 1000;
+        transition: opacity 0.3s ease-in-out;
+    }
+
+    .bubble::before {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: 10px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent transparent #f1f1f1 transparent;
+    }
+
+    .bubble li {
+        padding: 5px 10px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .bubble li:hover {
+        background: #ddd;
+    }
+
+</style>
+
+<div class="main-container">
+    <div class="header-container"></div>
+    <div class="body-container">
+        <div class="column-three">
+            <div>
+            <label class="input-label" for="requester">Requester *</label>
+            <input type="text" id="requester" class="input-form" @bind="requester" readonly/>
+            </div>
+            <div>
+            <label class="input-label" for="company">Company *</label>
+            <select id="company" class="select-input" @onchange="OnChangeCompany">
+                <option>-- SELECT --</option>
+                @if(Scompany == "EPC" || Scompany == "AHLC"){
+                    <option value="200-056-455-000">Everyday Products Corporation</option>
+                    <option value="010-015-975-000">Athome Lifestyle Corporation</option>
+                }else{
+                    <option value="201-827-101-000">New Barbizon Fashion Inc.</option>
+                    <option value="008-257-685-000">Cotton Mountain Corporation</option>
+                    <option value="009-143-730-000">ActiveStyle Corporation</option>
+                }
+            </select>
+            </div>
+            <div>
+            <label class="input-label" for="department">Department *</label>
+            <select id="department" class="select-input" @onchange="OnChangeDepartment" required>
+                <option value="">-- SELECT --</option>
+                <option value="2">MERCHANDISE</option>
+                <option value="3">SALES</option>
+                <option value="5">OPERATIONS</option>
+                <option value="6">MIS</option>
+                <option value="7">FINANCE</option>
+                <option value="8">MARKETING</option>
+                <option value="10">PRESIDENT</option>
+                <option value="11">PURCHASING</option>
+                <option value="13">HR</option>
+                <option value="15">BP</option>
+            </select>
+            </div>
+
+        </div>
+        <div class="column-three">
+            <div>
+            <label class="input-label" for="posting-date">Posting Date *</label>
+            <input type="date" id="posting-date" class="input-form" @bind="postingDate" disabled />
+            </div>
+            <div>
+            <label class="input-label" for="valid-until">Valid Until *</label>
+            <input type="date" id="valid-until" class="input-form" @bind="validUntil" required />
+            </div>
+            <div>
+            <label class="input-label" for="required-date">Required Date *</label>
+            <input type="date" id="required-date" class="input-form" @bind="requiredDate" required />
+            </div>
+        </div>
+        <div class="column-three">
+            <div>
+            <label class="input-label" for="total-vat-ex">TOTAL (VAT-Ex):</label>
+            <input type="number" id="total-vat-ex" value="@TotalGrossPrice" class="input-form" disabled/>
+            </div>
+            <div>
+            <label class="input-label" for="remarks">Remarks *</label>
+            <input type="text" id="remarks" class="input-form" @bind="remarks" required />
+            </div>
+            <div>
+            <label class="input-label" for="transaction-type">Transaction Type</label>
+            @* @transactionType *@
+            <select id="transaction-type" class="select-input" @onchange="OnChangeTType">
+                <option>-- SELECT --</option>
+                <option value="BLDG"> Building Related </option>
+                <option value="DES"> Non Trade Job Order </option>
+                <option value="IMP"> Trade Import </option>
+                <option value="IT"> Non Trade IT Items </option>
+                <option value="JO"> Trade Job Order </option>
+                <option value="LOC"> Trade Local </option>
+                <option value="OPS" selected> Non Trade Items </option>
+            </select>
+            </div>
+            <div>
+            <label for="item-service-type" class="input-label">Item/Service Type</label>
+            <select id="item-service-type" class="select-input" @onchange="ItemServiceType">
+                <option value="">-- SELECT --</option>
+                <option value="dDocument_Service">Service</option>
+                <option value="dDocument_Items">Item</option>
+            </select>
+            </div>
+        </div>
+
+        @if (docType == "dDocument_Service")
+        {
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;">GL Account</th>
+                            <th style="width: 10%;">GL Description</th>
+                            <th style="width: 20%;">Service Description</th>
+                            <th style="width: 10%;">Unit Price</th>
+                            <th style="width: 10%;">Discount %</th>
+                            <th style="width: 10%;">Preferred Supplier</th>
+                            <th style="width: 10%;">Tax Code</th>
+                            <th style="width: 10%;">Gross Price</th>
+                            <th style="width: 10%;">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var line in documentLines)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="text" placeholder="No GL Account" class="input-form"
+                                        @oninput="(e) => OnSearchAcctCode(line, e)"
+                                        value="@line.AccountCode" disabled/>
+
+                                        @if(!string.IsNullOrEmpty(line.ItemSearchAcctCode) && string.IsNullOrEmpty(line.AccountCode)){
+                                            <div class="bubble-container">
+                                                <ul class="search-result bubble">
+                                                    @foreach (var item in line.FilteredAcctCode.OrderBy(o => o.AcctCode))
+                                                    {
+                                                        <li @onclick="() => OnSelectAcctCode(line, item)">
+                                                            @item.AcctCode
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        }
+
+                                        @* <select @onchange="(e) => OnChangeAcctCode(line, e)">
+                                            <option value="">Select Item</option>
+                                            @foreach (var item in oGLAccounts.OrderBy(o => o.AcctCode))
+                                            {
+                                                <option value="@item.AcctCode" selected="@(line.AccountCode == item.AcctCode)">@item.AcctCode</option>
+                                            }
+                                        </select> *@
+                                    </td>
+                                    <td>
+                                        <input type="text" placeholder="Search..." class="input-form"
+                                        @oninput="(e) => OnSearchAcctName(line, e)"
+                                        value="@line.AccountName" />
+
+                                        @if (!string.IsNullOrEmpty(line.ItemSearchAcctName) && string.IsNullOrEmpty(line.AccountName))
+                                        {
+                                            <ul class="search-result">
+                                                @foreach (var item in line.FilteredAcctName.OrderBy(o => o.AcctName))
+                                                {
+                                                    <li @onclick="() => OnSelectAcctName(line, item)">
+                                                        @item.AcctName
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+
+                                        @* <select @onchange="(e) => OnChangeAcctName(line, e)">
+                                            <option value="">Select Item</option>
+                                            @foreach (var item in oGLAccounts.OrderBy(o => o.AcctName))
+                                            {
+                                                <option value="@item.AcctName" selected="@(line.AccountName == item.AcctName)">@item.AcctName</option>
+                                            }
+                                        </select> *@
+                                    </td>
+                                    <td><input class="input-form" type="text" name="item-description" step="0.01" @bind="line.ItemDescription" /></td>
+                                    <td><input class="input-form" type="number" name="unit-price" step="0.01" @bind="line.UnitPrice" /></td>
+                                    <td><input class="input-form" type="number" name="discount" step="0.01" @bind="line.DiscountPercent" /></td>
+                                    <td>
+                                        <input type="text" placeholder="Search..." class="input-form"
+                                        @oninput="(e) => OnSearchSupplier(line, e)"
+                                        value="@line.SupplierName" />
+
+                                        @if (!string.IsNullOrEmpty(line.SearchSupplier))
+                                        {
+                                            <ul class="search-result">
+                                                @foreach (var item in line.FIlteredSupplier.OrderBy(o => o.Supplier))
+                                                {
+                                                    <li @onclick="() => OnSelectSupplier(line, item)">
+                                                        @item.CardName
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+
+                                        @* <select @onchange="(e) => OnChangeSupplier(line, e)">
+                                            <option value="">-- SELECT --</option>
+                                            @foreach (var sup in oSuppliers)
+                                            {
+                                                <option value="@sup.CardCode"> @sup.CardName</option>
+                                            }
+                                        </select> *@
+                                    </td>
+                                    <td>
+                                        <select class="select-input" @onchange="(e) => OnChangeTaxCode(line, e)">
+                                            <option value="">-- SELECT --</option>
+                                            @foreach (var tax in oTaxCodes)
+                                            {
+                                                <option value="@tax.Code" selected="@(tax.Code == "IT0" ? "selected" : null)">
+                                                    @tax.Code
+                                                </option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td><input class="input-form" type="number" name="gross-price" step="0.01" value="@ServiceGrossPrice(line)" readonly /></td>
+                                    <td><button class="btn btn-danger btn-sm" @onclick="@(() => RemoveRow(line))">Remove</button>
+                                    <button class="btn btn-primary" @onclick="AddNewRow">Add Row</button></td>
+                                </tr>
+                            }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else if (docType == "dDocument_Items")
+        {
+        }
+    </div>
+    <!-- Conditional Tables -->
+    @if (docType == "dDocument_Service")
+    {
+        @* <div class="table-responsive p-3 bg-light rounded border">
+            <table class="table table-bordered table-striped">
+                <thead class="table-primary">
+                    <tr>
+                        <th style="width: 10%;">GL Account</th>
+                        <th style="width: 10%;">GL Description</th>
+                        <th style="width: 15%;">Description</th>
+                        <th style="width: 10%;">Unit Price</th>
+                        <th style="width: 5%;">Discount %</th>
+                        <th style="width: 30%;">Preferred Supplier</th>
+                        <th style="width: 5%;">Tax Code</th>
+                        <th style="width: 10%;">Gross Price</th>
+                        <th style="width: 5%;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var line in documentLines)
+                    {
+                        <tr>
+                            <td>
+                                <input type="text" placeholder="Search Account Code"
+                                @oninput="(e) => OnSearchAcctCode(line, e)"
+                                value="@line.AccountCode" disabled/>
+
+                                @if(!string.IsNullOrEmpty(line.ItemSearchAcctCode) && string.IsNullOrEmpty(line.AccountCode)){
+                                    <ul class="search-result">
+                                        @foreach(var item in line.FilteredAcctCode.OrderBy(o => o.AcctCode)){
+                                            <li @onclick="() => OnSelectAcctCode(line, item)">
+                                                @item.AcctCode
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Search Account Name"
+                                @oninput="(e) => OnSearchAcctName(line, e)"
+                                value="@line.AccountName" />
+
+                                @if (!string.IsNullOrEmpty(line.ItemSearchAcctName) && string.IsNullOrEmpty(line.AccountName))
+                                {
+                                    <ul class="search-result">
+                                        @foreach (var item in line.FilteredAcctName.OrderBy(o => o.AcctName))
+                                        {
+                                            <li @onclick="() => OnSelectAcctName(line, item)">
+                                                @item.AcctName
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </td>
+                            <td><input type="text" name="gross-price" step="0.01" @bind="line.ItemDescription" /></td>
+                            <td><input type="number" name="gross-price" step="0.01" @bind="line.UnitPrice" /></td>
+                            <td><input type="number" name="gross-price" step="0.01" @bind="line.DiscountPercent" /></td>
+                            <td>
+                                <input type="text" placeholder="Search Account Name"
+                                @oninput="(e) => OnSearchSupplier(line, e)"
+                                value="@line.SupplierName" />
+
+                                @if (!string.IsNullOrEmpty(line.SearchSupplier))
+                                {
+                                    <ul class="search-result">
+                                        @foreach (var item in line.FIlteredSupplier.OrderBy(o => o.Supplier))
+                                        {
+                                            <li @onclick="() => OnSelectSupplier(line, item)">
+                                                @item.CardName
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </td>
+                            <td>
+                                <select @onchange="(e) => OnChangeTaxCode(line, e)">
+                                    <option value="">-- SELECT --</option>
+                                    @foreach (var tax in oTaxCodes)
+                                    {
+                                        <option value="@tax.Code" >@tax.Code</option>
+                                    }
+                                </select>
+                            </td>
+                            <td><input type="number" name="gross-price" step="0.01" value="@ServiceGrossPrice(line)" readonly /></td>
+                            <td><button class="btn btn-danger btn-sm" @onclick="@(() => RemoveRow(line))">Remove</button>
+                            <button class="btn btn-primary" @onclick="AddNewRow">Add Row</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <button class="btn btn-primary" @onclick="AddNewRow">Add Row</button>
+        </div> *@
+    }
+    else if (docType == "dDocument_Items")
+    {
+        <div class="table-responsive p-3 bg-light rounded border">
+            <table class="table table-bordered table-striped">
+                <thead class="table-primary">
+                    <tr>
+                        <th style="width: 5%;">Item No.</th>
+                        <th style="width: 5%;">item Description</th>
+                        <th style="width: 5%;">Size</th>
+                        <th style="width: 5%;">Color</th>
+                        <th style="width: 5%;">UoM</th>
+                        <th style="width: 5%;">Required Quantity</th>
+                        <th style="width: 5%;">Preferred Supplier</th>
+                        <th style="width: 5%;">Unit Price</th>
+                        <th style="width: 5%;">Discount %</th>
+                        <th style="width: 5%;">Tax Code</th>
+                        <th style="width: 5%;">Gross Price</th>
+                        <th style="width: 5%;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var line in documentLines)
+                    {
+                        <tr>
+                            <td>
+                                <input type="text" placeholder="Search Item Code"
+                                @oninput="(e) => OnSearchItemCode(line, e)"
+                                value="@line.ItemCode"
+                                />
+
+                                @if (!string.IsNullOrEmpty(line.ItemSearchTextCode) && string.IsNullOrEmpty(line.ItemCode))
+                                {
+                                    <ul class="search-results">
+                                        @foreach (var item in line.FilteredItemsCode.OrderBy(o => o.ItemCode))
+                                        {
+                                            <li @onclick="() => OnSelectItemCode(line, item)">
+                                                @item.ItemCode
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </td>
+                            <td>
+                                <input type="text" placeholder="Search Item Name"
+                                @oninput="(e) => OnSearchItemName(line, e)"
+                                value="@line.ItemDescription" />
+
+                                @if (!string.IsNullOrEmpty(line.ItemSearchTextName) && string.IsNullOrEmpty(line.ItemDescription))
+                                {
+                                    <ul class="search-results">
+                                        @foreach (var item in line.FilteredItemsName.OrderBy(o => o.ItemName))
+                                        {
+                                            <li @onclick="() => OnSelectItemName(line, item)">
+                                                @item.ItemName
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </td>
+                            <td><input type="text" value="@(line.Size)" disabled /> @*Item Size*@</td>
+                            <td><input type="text" value="@(line.Color)" disabled /> @*Item Color*@</td>
+                            <td><input type="text" value="@(line.UoMCode)" disabled /> @*Item UoM*@</td>
+                            <td><input type="text" name="preferred-quantity" @bind="line.Quantity" /> @* Quantity *@</td>
+                            <td>
+                                <input type="text" placeholder="Search Supplier"
+                                       @oninput="(e) => OnSearchSupplier(line, e)"
+                                       value="@line.SupplierName" />
+
+                                @if (!string.IsNullOrEmpty(line.SearchSupplier))
+                                {
+                                    <ul class="search-result">
+                                        @foreach (var item in line.FIlteredSupplier.OrderBy(o => o.Supplier))
+                                        {
+                                            <li @onclick="() => OnSelectSupplier(line, item)">
+                                                @item.CardName
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+
+                                @* <select @onchange="(e) => OnChangeSupplier(line, e)"> 
+                                    <option value="">-- SELECT --</option>
+                                    @foreach (var sup in oSuppliers)
+                                    {
+                                        <option value="@sup.CardCode"> @sup.CardName</option>
+                                    }
+                                </select> *@
+                            </td>
+                            <td><input type="number" name="gross-price" step="0.01" @bind="line.UnitPrice" /></td>
+                            <td>
+                                <input type="number" name="discount-percent"
+                                min="0" max="100" step="1.00"
+                                @bind="line.DiscountPercent"
+                                placeholder="%" />
+                            </td>
+                            <td>
+                                <select @onchange="(e) => OnChangeTaxCode(line, e)">
+                                    <option value="">-- SELECT --</option>
+                                    @foreach (var tax in oTaxCodes)
+                                    {
+                                        <option value="@tax.Code">@tax.Code</option>
+                                    }
+                                </select>
+                            </td>
+                            <td><input type="number" name="gross-price" step="0.01" value="@ItemsGrossPrice(line)" readonly /></td>
+                            <td><button class="btn btn-danger btn-sm" @onclick="@(() => RemoveRow(line))">Remove</button></td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="10" class="text-end"><strong>Total Gross Price:</strong></td>
+                        <td>
+                            <input type="number" step="0.01" value="@TotalGrossPrice" readonly class="form-control" />
+                        </td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <button class="btn btn-primary" @onclick="AddNewRow">Add Row</button>
+        </div>
+    }
+
+    <button class="btn btn-success mt-3 px-5" @onclick="SubmitPurchaseRequest"
+    disabled="@IsButtonDisabled">
+        Submit Purchase Request
+    </button>
+
+</div>
+
+@if (showPopup)
+{
+    <Popup Title="Purchase Request Created"
+           Message="@popupMessage"
+           OnClose="ClosePopup" />
+}
+
+@code {
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+    private string? username, password, company, sessionId, loginMessage; // login
+
+    //header
+    private string? requester, remarks, totalVatEx, tax, taxVatEx, docType, transactionType = "OPS", docNum, description;
+    private int r_department;
+    private DateTime postingDate = DateTime.Now;
+    private DateTime validUntil = DateTime.Now.AddDays(7);
+    private DateTime requiredDate = DateTime.Now.AddDays(7);
+
+    //Body
+    private string? accountCode, itemDescription, vatGroup, costingCode;
+    private double unitPrice=0, discountPercent=0, grossPrice=0;
+    private int quantity;
+
+    private List<PurchaseRequestLine> documentLines = new List<PurchaseRequestLine>();
+    // private Items? selectedItem;
+    private bool isLoggedIn = false, isLoggedOut = true;
+    private double t_grossPrice;
+    private string? positions, Scompany, SuserId;
+
+    private List<OItems>? oItems = new List<OItems>();
+    private List<OTaxCode>? oTaxCodes = new List<OTaxCode>();
+    private List<OSuppliers>? oSuppliers = new List<OSuppliers>();
+    private List<OGLAccounts>? oGLAccounts = new List<OGLAccounts>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Retrieve sessionStorage values
+            var sessionId = await _runtime.InvokeAsync<string>("sessionStorage.getItem", "session_id");
+            Scompany = await _runtime.InvokeAsync<string>("sessionStorage.getItem", "company");
+            SuserId = await _runtime.InvokeAsync<string>("sessionStorage.getItem", "username");
+            Console.WriteLine("Company: " + Scompany);
+            Console.WriteLine("User ID: " + SuserId);
+            // Redirect if sessionId is null or empty
+            if (string.IsNullOrEmpty(sessionId))
+            {
+                _navigation.NavigateTo("http://192.168.0.7:8484/", true);
+                return;
+            }
+
+            // Configure the SAPOdbc instance dynamically based on the company
+            _sap.Configure(
+                server: "HANASERVERNBFI:30015",
+                   user: "SYSTEM",
+                   password: "Sb1@nbfi",
+                   databaseNBFI: "Z_NBFI_SBOTEST",
+                   databaseEPC: "Z_EPC_SBOTEST",
+                company: Scompany
+            );
+
+            // // Set SAP properties
+            // _sap.SAPCompany = Scompany;
+            requester = SuserId;
+            // Console.WriteLine("SAP.....COMNP: " + _sap.SAPCompany);
+
+            if(_sap.SAPCompany != ""){
+                // Load data after sessionStorage values are retrieved
+                oItems = await Task.Run(() => _sap.GetItemAsync());
+                oSuppliers = await Task.Run(() => _sap.GetSuppliers());
+                oGLAccounts = await Task.Run(() => _sap.GetGLAccounts());
+                oTaxCodes = await Task.Run(() => _sap.GetTaxCode());
+
+            }
+
+
+
+            StateHasChanged(); // Force re-render after data is loaded
+        }
+    }
+    private async Task loginFunction()
+    {
+        string slCompany = "";
+
+        if(Scompany == "EPC" || Scompany == "AHLC") slCompany = "Z_EPC_SBOTEST";
+        else slCompany = "Z_NBFI_SBOTEST";
+
+        var loginRequest = new LoginRequest
+            {
+                UserName = "z_Direc1",
+                Password = "B1Admin",
+                CompanyDB = slCompany
+            };
+
+        try
+        {
+            var loginResponse = await SapService.LoginAsync(loginRequest);
+            sessionId = loginResponse.SessionId;
+            loginMessage = "Login successful!";
+            isLoggedIn = true;
+            _navigation.NavigateTo($"/app4");
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            loginMessage = $"Login failed. Please check your username and password. {ex.Message}";
+            // Log the exception details
+        }
+    } // service layer
+
+    public async Task LogoutUser()
+    {
+        // bool isLoggedOut = await LogoutAsync();
+        if (isLoggedOut)
+        {
+            // Successfully logged out
+            Console.WriteLine("Successfully logged out.");
+            sessionId = string.Empty;
+            isLoggedOut = false;
+        }
+        else
+        {
+            // Logout failed
+            Console.WriteLine("Failed to log out.");
+        }
+    } // service layer
+
+    private double ItemsGrossPrice(PurchaseRequestLine line)
+    {
+        var discountAmount = line.UnitPrice * (line.DiscountPercent / 100); // Calculate discount amount
+        var discountedPrice = line.UnitPrice - discountAmount;             // Subtract discount from unit price
+        var grossPrice = line.Quantity * discountedPrice;                  // Calculate gross price
+        return Math.Round(grossPrice, 2);                          // Calculate gross price
+    }
+
+    private double ServiceGrossPrice(PurchaseRequestLine line)
+    {
+        var discountAmount = line.UnitPrice * (line.DiscountPercent / 100);
+        var grossPrice = line.UnitPrice - discountAmount;
+        return Math.Round(grossPrice, 2);
+    }
+
+    private bool showPopup = false;
+    private string popupMessage = "";
+    public async Task SubmitPurchaseRequest()
+    {
+        await loginFunction();
+
+        var u_department = r_department switch
+        { 2 => "MDSE", 3 => "SALES", 5 => "OPS", 6 => "MIS", 7 => "FINANCE", 8 => "MKTG", 9 => "SALESMKTG", 
+            10 => "PRES", 11 => "PURCHASE", 12 => "FINANCE_AUDIT", 13 => "HR", 14 => "BP", _=>null };
+
+        Console.WriteLine($"PR Submit");
+        // Create the PurchaseRequest object with data from your form or database
+
+        var purchaseRequest = new PurchaseRequest // if docType == "dDocument_Items"
+            {
+                DocType = docType,
+                DocDate = postingDate.ToString("yyyy-MM-dd"),
+                DocDueDate = validUntil.ToString("yyyy-MM-dd"),
+                RequriedDate = requiredDate.ToString("yyyy-MM-dd"),
+                Requester = "z_Direc1", 
+                RequesterName = requester,
+                RequesterDepartment = r_department,
+                U_Department = u_department,
+                U_Remarks = remarks,
+                U_TransactionType = transactionType,
+                U_PrepBy = requester,
+                U_CompanyTIN = company, 
+                DocumentLines = docType == "dDocument_Items"
+                    ? documentLines.Select(line => new PurchaseRequestLine
+                    {
+                        ItemCode = line.ItemCode,
+                        UoMCode = line.UoMCode,
+                        Quantity = line.Quantity,
+                        UnitPrice = line.UnitPrice,
+                        DiscountPercent = line.DiscountPercent,
+                        VatGroup = line.VatGroup,
+                        U_PreferredSupplier = line.U_PreferredSupplier,
+                        RequiredDate = requiredDate.ToString("yyyy-MM-dd"),
+                        CostingCode = u_department
+                    }).ToList()
+                    : documentLines.Select(line => new PurchaseRequestLine
+                    {
+                        AccountCode = line.AccountCode,
+                        ItemDescription = line.ItemDescription,
+                        UnitPrice = line.UnitPrice,
+                        DiscountPercent = line.DiscountPercent,
+                        VatGroup = line.VatGroup,
+                        U_PreferredSupplier = line.U_PreferredSupplier,
+                        RequiredDate = requiredDate.ToString("yyyy-MM-dd"),
+                        CostingCode = u_department
+                    }).ToList()
+            };
+
+        // Console.WriteLine(purchaseRequest);
+        var option = new JsonSerializerOptions {
+                WriteIndented = true,
+                // DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            };
+        string PRJSON = JsonSerializer.Serialize(purchaseRequest, option);
+
+        @* Console.WriteLine(PRJSON); *@
+        try{
+            docNum = await SapService.PostPurchaseRequestAsync(purchaseRequest, sessionId);
+            // await _runtime.InvokeVoidAsync("alert", $"Purchase Request Created with DocNum: {docNum}");
+            Console.WriteLine($"PR Number: {docNum}");
+            popupMessage = $"Purchase Request Created with DocNum: {docNum}";
+            showPopup = true;
+            
+            @* _navigation.NavigateTo(NavigationManager.Uri, forceLoad: true); *@
+        }
+        catch(Exception ex){
+            Console.WriteLine($"PR Error: {ex.Message}");
+            var errorState = await SapService.PostPurchaseRequestAsync(purchaseRequest, sessionId);
+            // await _runtime.InvokeVoidAsync("alert", $"Purchase Request has error {errorState}");
+            popupMessage = $"Purchase Request has error: {errorState}";
+            showPopup = true;
+        }
+        finally{
+            await LogoutUser();
+            sessionId = string.Empty;
+        }
+    }
+    private void ClosePopup()
+    {
+        showPopup = false;
+        _navigation.NavigateTo("/app4/", forceLoad: true);
+    }
+
+    private List<PurchaseRequestLine> GenerateItemLines(){
+        if(documentLines == null || !documentLines.Any()){
+            Console.WriteLine("Document lines are empty!");
+            return new List<PurchaseRequestLine>();
+        }
+
+        return documentLines.Select(line => new PurchaseRequestLine
+            {
+                ItemCode = line.ItemCode,
+                UoMCode = line.UoMCode,
+                Quantity = line.Quantity,
+                UnitPrice = line.UnitPrice,
+                DiscountPercent = line.DiscountPercent,
+                VatGroup = line.VatGroup,
+                U_PreferredSupplier = line.U_PreferredSupplier,
+                RequiredDate = requiredDate.ToString("yyyy-MM-dd"),
+                CostingCode = line.CostingCode
+            }).ToList();
+    }
+    private List<PurchaseRequestLine> GenerateServiceLines()
+    {
+        if (documentLines == null || !documentLines.Any())
+        {
+            Console.WriteLine("Document lines are empty!");
+            return new List<PurchaseRequestLine>();
+        }
+
+        return documentLines.Select(line => new PurchaseRequestLine
+            {
+                AccountCode = line.ItemCode,
+                ItemDescription = line.ItemDescription,
+                UnitPrice = line.UnitPrice,
+                DiscountPercent = line.DiscountPercent,
+                VatGroup = line.VatGroup,
+                U_PreferredSupplier = line.U_PreferredSupplier,
+                RequiredDate = requiredDate.ToString("yyyy-MM-dd"),
+                CostingCode = line.CostingCode
+            }).ToList();
+    }
+
+    private double TotalGrossPrice => documentLines.Sum(line => CalculateGrossPrice(line));
+
+    private double CalculateGrossPrice(PurchaseRequestLine line)
+    {
+        if (docType == "dDocument_Items"){
+            return ItemsGrossPrice(line);
+        }
+        else{
+            return ServiceGrossPrice(line);
+        }
+    }
+    private void ItemServiceType(ChangeEventArgs e)
+    {
+        // Get the selected value from the dropdown
+        docType = e.Value?.ToString();
+
+        // Clear the documentLines when the dropdown changes
+        documentLines.Clear();
+        AddNewRow();
+        // Optional: Add a reset/refresh logic if necessary
+        StateHasChanged();
+    }
+
+    // private void OnChangeItemCode(PurchaseRequestLine line, ChangeEventArgs e)
+    // {
+    //     var selectedValue = e.Value?.ToString();
+    //     var selectedItem = oItems?.FirstOrDefault(item => item.ItemCode == selectedValue);
+
+    //     if(selectedItem != null){
+    //         line.ItemCode = selectedItem.ItemCode;
+    //         line.ItemDescription = selectedItem.ItemName;
+    //         line.Size = selectedItem.U_ID007;
+    //         line.Color = selectedItem.U_ID011;
+    //         line.UoMCode = selectedItem.InvntryUom;
+    //     }
+    //     else{
+    //         line.ItemCode = string.Empty;
+    //         line.ItemDescription = string.Empty;
+    //         line.Size = string.Empty;
+    //         line.Color = string.Empty;
+    //         line.UoMCode = string.Empty;
+    //     }
+    // }
+    // private void OnChangeItemName(PurchaseRequestLine line, ChangeEventArgs e)
+    // {
+    //     var selectedValue = e.Value?.ToString();
+    //     var selectedItem = oItems?.FirstOrDefault(item => item.ItemName == selectedValue);
+
+    //     if (selectedItem != null)
+    //     {
+    //         line.ItemCode = selectedItem.ItemCode;
+    //         line.ItemDescription = selectedItem.ItemName;
+    //         line.Size = selectedItem.U_ID007;
+    //         line.Color = selectedItem.U_ID011;
+    //         line.UoMCode = selectedItem.InvntryUom;
+    //     }
+    //     else
+    //     {
+    //         line.ItemCode = string.Empty;
+    //         line.ItemDescription = string.Empty;
+    //         line.Size = string.Empty;
+    //         line.Color = string.Empty;
+    //         line.UoMCode = string.Empty;
+    //     }
+
+    //     // Update UI to reflect the change
+    //     StateHasChanged();
+    // }
+
+    // private void OnChangeAcctCode(PurchaseRequestLine line, ChangeEventArgs e)
+    // {
+    //     var selectedValue = e.Value?.ToString();
+
+    //     var selectedItem = oGLAccounts?.FirstOrDefault(item => item.AcctCode == selectedValue);
+    //     if (selectedItem != null)
+    //     {
+    //         line.AccountCode = selectedItem.AcctCode;
+    //         line.AccountName = selectedItem.AcctName;
+    //     }
+    //     else
+    //     {
+    //         line.ItemCode = string.Empty;
+    //         line.AccountName = string.Empty;
+    //     }
+
+    // }
+    // private void OnChangeAcctName(PurchaseRequestLine line, ChangeEventArgs e)
+    // {
+    //     var selectedValue = e.Value?.ToString();
+    //     var selectedItem = oGLAccounts?.FirstOrDefault(item => item.AcctName == selectedValue);
+
+    //     if (selectedItem != null)
+    //     {
+    //         line.AccountCode = selectedItem.AcctCode;
+    //         line.AccountName = selectedItem.AcctName;
+    //     }
+    //     else
+    //     {
+    //         line.ItemCode = string.Empty;
+    //         line.AccountName = string.Empty;
+    //     }
+
+    //     // Update UI to reflect the change
+    //     StateHasChanged();
+    // }
+
+    private void OnChangeSupplier(PurchaseRequestLine line, ChangeEventArgs e)
+    {
+        line.U_PreferredSupplier = e.Value?.ToString();
+    }
+    private void OnChangeTaxCode(PurchaseRequestLine line, ChangeEventArgs e)
+    {
+        line.VatGroup = e.Value?.ToString();
+    }
+
+    private void OnChangeCompany(ChangeEventArgs e) => company = e.Value?.ToString();
+    private void OnChangeTType(ChangeEventArgs e) => transactionType = e.Value?.ToString();
+    private void OnChangeDepartment(ChangeEventArgs e) 
+    {
+        if (int.TryParse(e.Value?.ToString(), out int departmentId))
+        {
+            r_department = departmentId;
+        }
+        else
+        {
+            r_department = 0; // Default or error case
+        }
+    }
+
+    private void AddNewRow() => documentLines.Add(new PurchaseRequestLine
+        {
+            FilteredItemsCode = oItems?.ToList(),
+            FilteredItemsName = oItems?.ToList(),
+            ItemSearchTextCode = string.Empty,
+            ItemSearchTextName = string.Empty
+        });
+
+    private void RemoveRow(PurchaseRequestLine line) => documentLines.Remove(line);
+
+    private bool IsButtonDisabled =>
+        string.IsNullOrWhiteSpace(requester) ||
+        string.IsNullOrWhiteSpace(remarks) ||
+        validUntil == DateTime.MinValue ||
+        requiredDate == DateTime.MinValue ||
+        r_department == 0 ||
+        string.IsNullOrWhiteSpace(Scompany) ||
+        docType == null ||
+        (documentLines == null || !documentLines.Any()) ||
+        TotalGrossPrice == 0 ||
+        documentLines.Any(line => line.UnitPrice == 0) ||
+        string.IsNullOrWhiteSpace(company) ||
+        string.IsNullOrWhiteSpace(transactionType) ||
+        (docType == "dDocument_Service"
+            ? documentLines.Any(line => string.IsNullOrWhiteSpace(line.AccountCode) )
+            : documentLines.Any(line => string.IsNullOrWhiteSpace(line.ItemCode) ));
+
+    private void OnSearchItemCode(PurchaseRequestLine line, ChangeEventArgs e)
+    {
+        var searchText = e.Value?.ToString()?.ToLower();
+
+        if (!string.IsNullOrEmpty(searchText))
+        {
+            line.FilteredItemsCode = oItems
+                .Where(item => item.ItemCode.ToLower().Contains(searchText))
+                .ToList();
+
+            line.ItemSearchTextCode = searchText;
+
+        }
+        else
+        {
+            line.FilteredItemsCode = oItems?.ToList();
+            line.ItemSearchTextCode = string.Empty;
+
+            // Clear the ItemCode field
+            line.ItemCode = string.Empty;
+            line.ItemDescription = string.Empty;
+            line.Size = string.Empty;
+            line.Color = string.Empty;
+            line.UoMCode = string.Empty;
+        }
+
+        StateHasChanged();
+    }
+    private void OnSearchItemName(PurchaseRequestLine line, ChangeEventArgs e)
+    {
+        var searchText = e.Value?.ToString()?.ToLower();
+
+        if (!string.IsNullOrEmpty(searchText))
+        {
+            line.FilteredItemsName = oItems
+                .Where(item => item.ItemName.ToLower().Contains(searchText))
+                .ToList();
+
+            line.ItemSearchTextName = searchText;
+
+        }
+        else
+        {
+            line.FilteredItemsName = oItems?.ToList();
+            line.ItemSearchTextName = string.Empty;
+
+            // Clear the ItemCode field
+            line.ItemCode = string.Empty;
+            line.ItemDescription = string.Empty;
+            line.Size = string.Empty;
+            line.Color = string.Empty;
+            line.UoMCode = string.Empty;
+        }
+
+        StateHasChanged();
+    }
+    private void OnSelectItemCode(PurchaseRequestLine line, OItems selectedItem)
+    {
+        line.ItemCode = selectedItem.ItemCode;
+        line.ItemDescription = selectedItem.ItemName;
+        line.Size = selectedItem.U_ID007;
+        line.Color = selectedItem.U_ID011;
+        line.UoMCode = selectedItem.InvntryUom;
+
+        // Reset search text and filtered items
+        line.ItemSearchTextCode = string.Empty;
+        line.FilteredItemsCode = new List<OItems>();
+
+        StateHasChanged();
+    }
+    private void OnSelectItemName(PurchaseRequestLine line, OItems selectedItem)
+    {
+        line.ItemCode = selectedItem.ItemCode;
+        line.ItemDescription = selectedItem.ItemName;
+        line.Size = selectedItem.U_ID007;
+        line.Color = selectedItem.U_ID011;
+        line.UoMCode = selectedItem.InvntryUom;
+
+        line.ItemSearchTextCode = string.Empty;
+        line.ItemSearchTextName = string.Empty;
+        line.FilteredItemsCode = new List<OItems>();
+        line.FilteredItemsName = new List<OItems>();
+
+        StateHasChanged();
+    }
+    private void OnSearchAcctCode(PurchaseRequestLine line, ChangeEventArgs e)
+    {
+        var searchCode = e.Value?.ToString()?.ToLower();
+
+        if(!string.IsNullOrEmpty(searchCode))
+        {
+            line.FilteredAcctCode = oGLAccounts
+                .Where(item => item.AcctCode.ToLower().Contains(searchCode))
+                .ToList();
+
+            line.ItemSearchAcctCode = searchCode;
+        }
+        else{
+            line.FilteredAcctCode = oGLAccounts?.ToList();
+            line.ItemSearchAcctCode = string.Empty;
+
+            line.AccountCode = string.Empty;
+            line.AccountName = string.Empty;
+        }
+        StateHasChanged();
+    }
+
+    private void OnSelectAcctCode(PurchaseRequestLine line, OGLAccounts selectedAcct)
+    {
+        line.AccountCode = selectedAcct.AcctCode;
+        line.AccountName = selectedAcct.AcctName;
+
+        line.ItemSearchAcctCode = string.Empty;
+        line.FilteredAcctCode = new List<OGLAccounts>();
+        line.FilteredAcctName = new List<OGLAccounts>();
+
+        StateHasChanged();
+    }
+
+    private void OnSearchAcctName(PurchaseRequestLine line, ChangeEventArgs e)
+    {
+        var searchName = e.Value?.ToString()?.ToLower();
+
+        if (!string.IsNullOrEmpty(searchName))
+        {
+            line.FilteredAcctName = oGLAccounts
+                .Where(item => item.AcctName.ToLower().Contains(searchName))
+                .ToList();
+
+            line.ItemSearchAcctName = searchName;
+        }
+        else
+        {
+            line.FilteredAcctName = oGLAccounts?.ToList();
+            line.ItemSearchAcctName = string.Empty;
+
+            line.AccountCode = string.Empty;
+            line.AccountName = string.Empty;
+        }
+        StateHasChanged();
+    }
+
+    private void OnSelectAcctName(PurchaseRequestLine line, OGLAccounts selectedAcct)
+    {
+        line.AccountCode = selectedAcct.AcctCode;
+        line.AccountName = selectedAcct.AcctName;
+
+        line.ItemSearchAcctName = string.Empty;
+        line.FilteredAcctCode = new List<OGLAccounts>();
+        line.FilteredAcctName = new List<OGLAccounts>();
+
+        StateHasChanged();
+    }
+
+    private void OnSearchSupplier(PurchaseRequestLine line, ChangeEventArgs e)
+    {
+        var searchSupplier = e.Value?.ToString()?.ToLower();
+
+        if(!string.IsNullOrEmpty(searchSupplier)){
+            line.FIlteredSupplier = oSuppliers
+                .Where(item => item.CardName.ToLower().Contains(searchSupplier))
+                .ToList();
+
+            line.SearchSupplier = searchSupplier;
+        }
+        else{
+            line.FIlteredSupplier = oSuppliers?.ToList();
+            line.SearchSupplier = string.Empty;
+        }
+
+        StateHasChanged();
+    }
+
+    private void OnSelectSupplier(PurchaseRequestLine line, OSuppliers selectedSupplier){
+        line.U_PreferredSupplier = selectedSupplier.CardCode;
+        line.SupplierName = selectedSupplier.CardName;
+
+        // line.SupplierName = string.Empty;
+        line.FIlteredSupplier = new List<OSuppliers>();
+        StateHasChanged();
+    }
+}
